@@ -11,4 +11,4 @@ Included file in `\dist\ez-run.exe\ez-run`
 
 ## Kiosks @ Conklin
 
-These should run the kiosk.py script which is the one setup in `.\ez-run.exe` by default
+These should run the kiosk.py script which is the one setup in `.\dist\ez-run.exe` by default. If your I believe you'll need to drag the entire ez-run.exe folder as it include some important files in `_internal`
