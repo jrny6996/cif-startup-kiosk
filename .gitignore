@@ -10,7 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -28,7 +27,6 @@ var/
 *.manifest
 *.spec
 build/
-dist/
 
 # Installer logs
 pip-log.txt
@@ -121,5 +119,4 @@ dmypy.json
 
 # PyInstaller build folders (added again to be sure)
 build/
-dist/
 *.spec
