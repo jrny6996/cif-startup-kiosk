@@ -1,14 +1,14 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoAlertPresentException
-import time
 from pynput import mouse, keyboard
 
 # === Config ===
-INACTIVITY_THRESHOLD = 5  # seconds
+INACTIVITY_THRESHOLD = 30  # seconds
 CHECK_INTERVAL = 5
-URL = "https://rutgers.my.site.com/OneStopWalkIn/s/newarkwalkinstatus"
+URL = "https://rutgers.my.site.com/OneStopWalkIn/s/newark"
 
 # Track last activity time globally
 last_active_time = time.time()
@@ -26,7 +26,7 @@ def is_user_inactive():
 
 def prompt_user(driver):
     driver.execute_script("window._userConfirmed = confirm('Are you still there?');")
-    time.sleep(1)
+    time.sleep(10)
 
     try:
         alert = driver.switch_to.alert
@@ -47,7 +47,7 @@ def run_and_refresh_page(url: str, sleep_time: float = 60) -> None:
     options.add_experimental_option("excludeSwitches", ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
 
-    driver = webdriver.Edge(options=options)
+    driver = webdriver.Chrome(options=options)
     driver.get(url)
     driver.implicitly_wait(3)
 
@@ -66,9 +66,7 @@ def run_and_refresh_page(url: str, sleep_time: float = 60) -> None:
             else:
                 print("[-] No confirmation. Skipping refresh.")
         else:
-            print("[*] User active. Refreshing normally after sleep...")
-            time.sleep(sleep_time - CHECK_INTERVAL)
-            driver.get(url)
+            print("[*] User active. No refresh needed. Checking again after the interval...")
 
     driver.quit()
 
