@@ -25,7 +25,7 @@ def is_user_inactive():
     return time.time() - last_active_time > INACTIVITY_THRESHOLD
 
 def prompt_user(driver):
-    driver.execute_script("window._userConfirmed = confirm('Are you still there?');")
+    driver.execute_script("window._userConfirmed = confirm('Are you still there? Please select \"cancel\" to continue');")
     time.sleep(10)
 
     try:
