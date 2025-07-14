@@ -12,10 +12,12 @@ URL = "https://rutgers.my.site.com/OneStopWalkIn/s/newark"
 
 # Track last activity time globally
 last_active_time = time.time()
+has_user_interacted = False  
 
 def on_input(_):
-    global last_active_time
+    global last_active_time, has_user_interacted
     last_active_time = time.time()
+    has_user_interacted = True 
 
 def start_input_listeners():
     mouse.Listener(on_move=on_input, on_click=on_input, on_scroll=on_input).start()
@@ -32,7 +34,6 @@ def prompt_user(driver):
         alert = driver.switch_to.alert
         alert_text = alert.text
         print(f"[?] Alert: {alert_text}")
-
         alert.accept()  # User clicked OK
         return True
     except NoAlertPresentException:
@@ -41,34 +42,45 @@ def prompt_user(driver):
         print(f"[!] Error handling alert: {e}")
         return False
 
-def run_and_refresh_page(url: str, sleep_time: float = 60) -> None:
+def run_and_refresh_page(url: str, sleep_time: float = 10, kiosk_flag:str= "--start-fullscreen") -> None:
     options = Options()
-    options.add_argument("--start-fullscreen")
+    options.add_argument(kiosk_flag)
     options.add_experimental_option("excludeSwitches", ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
 
     driver = webdriver.Chrome(options=options)
     driver.get(url)
+   
+
     driver.implicitly_wait(3)
 
     start_input_listeners()
 
     while True:
+        global has_user_interacted
         time.sleep(CHECK_INTERVAL)
+        # ✅ Skip nested loop if no user interaction yet
+        if not has_user_interacted:
+            print("[*] Waiting for initial user interaction...")
+            continue
 
         if is_user_inactive():
             print("[*] System inactive. Prompting user...")
             if prompt_user(driver):
                 print("[+] User confirmed. Refreshing page...")
+                driver.delete_all_cookies()
                 driver.get(url)
+                has_user_interacted = False
                 global last_active_time
                 last_active_time = time.time()
+
             else:
                 print("[-] No confirmation. Skipping refresh.")
+
         else:
-            print("[*] User active. No refresh needed. Checking again after the interval...")
+            print("[*] User active. No refresh needed.")
 
     driver.quit()
 
 if __name__ == "__main__":
-    run_and_refresh_page(URL, sleep_time=10)  # sleep_time short for testing
+    run_and_refresh_page(URL, kiosk_flag="--kiosk" )
