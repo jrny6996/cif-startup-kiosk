@@ -1,26 +1,32 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options
-from selenium.webdriver import Keys, ActionChains
+from selenium.webdriver.edge.service import Service
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver import Keys, ActionChains
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
-
-def run_and_refresh_page(url:str, sleep_time:float=3)->None:
-    options=""
+def run_and_refresh_page(url: str, sleep_time: float = 3) -> None:
     options = Options()
     options.add_argument("--start-fullscreen")
     options.add_experimental_option("excludeSwitches", ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
-    driver = webdriver.Edge(options=options)
+
+    # ✅ Use WebDriver Manager + Service for Edge
+    service = Service(EdgeChromiumDriverManager().install())
+    driver = webdriver.Edge(service=service, options=options)
 
     driver.get(url)
     driver.implicitly_wait(3)
+
     while True:
         time.sleep(sleep_time)
         driver.refresh()
 
     driver.quit()
+
+
 if __name__ == "__main__":
-    url= "https://rutgers.my.site.com/OneStopWalkIn/s/newarkwalkinstatus"
+    url = "https://rutgers.my.site.com/OneStopWalkIn/s/newarkwalkinstatus"
     run_and_refresh_page(url, sleep_time=60)
