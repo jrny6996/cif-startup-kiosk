@@ -8,6 +8,7 @@ Make sure you're inside the directory containing `kiosks.py` & other python file
 
 ## Usage
 
+[🎬 Watch the demo](./Conklinusage.webm)
 Kiosks @ Conklin should use the `kiosks.py` file & tvs should use `tvs.py`
 
 There is also a `kiosks.pyw` which is the same as `.py`, except it hides the terminal & runs Chrome in "Kiosk" mode instead of fullscreen.
