@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Conklin Kiosks</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 </head>
-<body>
-<video width="800" height="600" controls >
+<body class="relative max-h-screen overflow-hidden text-white">
+<div class="flex w-screen min-h-[100vh] justify-center  items-center bg-black flex-col z-10">
+    <div class=" lg:w-[50%] max-lg:w-[90%] grid gap-4">
+        <div class=" border bg-zinc-900 border border-zinc-700 rounded-lg p-8 z-10">
+    <h1 class="text-xl font-medium max-lg:text-lg   ">Companion Video</h1>
+    <div class=" text-zinc-200 max-md:text-sm   ">
+    <p class="lg:pt-4 pt-2">Below is a video going over how to use the `kiosks.py` script for this <a href="https://github.com/jrny6996/cif-startup-kiosk" target="_blank" class="underline text-blue-500 hover:text-blue-700 transition-all duration-300">repo</a></p>
+        <p class="lg:pt-2">Feel free to watch in which ever playback speed you prefer. I recommend 2x</p>
+        </div>
+</div> 
+<video width="1920" height="1080" controls  class=" rounded-lg border border-zinc-700 bg-black shadow-lg z-10">
   <source src="Conklinusage.mp4" type="video/mp4">
 
   Your browser does not support the video tag.
 </video>
+    </div>
+      <!-- blurred gradient overlay -->
+  <div class="absolute inset-0 lg:left-60 left-[10%] top-20 pointer-events-none
+              bg-gradient-to-r from-emerald-500/60 via-blue-400/50 to-green-600/60 w-64 h-64
+              blur-3xl opacity-60"></div>
+      <div class="absolute inset-0 left-[70%] top-[70%] pointer-events-none
+              bg-gradient-to-r from-pink-500/60 via-purple-400/50 to-indigo-600/60 w-108 h-108 rounded-full
+              blur-3xl opacity-60"></div>
+
+</div>
+
 </body>
 </html>
