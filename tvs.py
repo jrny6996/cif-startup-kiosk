@@ -1,11 +1,11 @@
 import time
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.edge.options import Options
+from selenium.webdriver.edge.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys, ActionChains
-# from webdriver_manager.microsoft import EdgeChromiumDriverManager
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+import platform
 
 def run_and_refresh_page(url: str, sleep_time: float = 3) -> None:
     options = Options()
@@ -13,15 +13,25 @@ def run_and_refresh_page(url: str, sleep_time: float = 3) -> None:
     options.add_experimental_option("excludeSwitches", ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
     """
-    Microsoft seems to have moved the url for edge driver, using chrome
+    Microsoft seems to have moved or protected the url for edge driver, using hard coded path 
     """
     # service = Service(EdgeChromiumDriverManager().install())
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+    # service = Service(ChromeDriverManager().install())
+    # driver = webdriver.Chrome(service=service, options=options)
+       
+    operating_sys = platform.system()
+    if operating_sys == "Linux":
+        service = Service("./drivers/edgedriver_linux64/msedgedriver")
+    elif operating_sys == "Windows":
+        service = Service("./drivers/edgedriver_win32/msedgedriver.exe")
 
+    else:
+        print("Could not detect platform to run edge Kiosk. Please verify system is on Linux or Windows")
+        return
+    driver = webdriver.Edge(service=service, options=options)
     driver.get(url)
     driver.implicitly_wait(3)
-
+    print("Running browser")
     while True:
         time.sleep(sleep_time)
         driver.refresh()

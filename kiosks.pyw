@@ -1,10 +1,17 @@
 import time
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoAlertPresentException
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 from pynput import mouse, keyboard
+"""
+MSEdge Deps
+"""
+import platform #selecting different drivers based on OS
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.webdriver.edge.options import Options
+from selenium.webdriver.edge.service import Service
 
 
 # === Config ===
@@ -54,10 +61,18 @@ def run_and_refresh_page(url: str, sleep_time: float = 10, kiosk_flag: str = "--
     options.add_argument(kiosk_flag)
     options.add_experimental_option("excludeSwitches", ['enable-automation'])
     options.add_experimental_option('useAutomationExtension', False)
+    
+        
+    operating_sys = platform.system()
+    if operating_sys == "Linux":
+        service = Service("./drivers/edgedriver_linux64/msedgedriver")
+    elif operating_sys == "Windows":
+        service = Service("./drivers/edgedriver_win32/msedgedriver.exe")
 
-    # ✅ Use WebDriver Manager + Service to install driver automatically
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+    else:
+        print("Could not detect platform to run edge Kiosk. Please verify system is on Linux or Windows")
+        return
+    driver = webdriver.Edge(service=service, options=options)
 
     driver.get(url)
     driver.implicitly_wait(3)
