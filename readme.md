@@ -1,7 +1,7 @@
 # Scripts for running browsers
 
 Script is currently compatible on Windows & Linux machines. It will require a compatible version of Edge installed.
-As of 08/14/25, the latest should work
+As of 08/14/25, the latest should work & it's installer has been placed inside `./browser_installers`
 
 Requires Python interpreter on system. While a standalone exe is possible, it generally makes it less robust, see [PyInstaller's documentation ](https://pyinstaller.org/en/stable/common-issues-and-pitfalls.html#launching-external-programs-from-the-frozen-application)
 
