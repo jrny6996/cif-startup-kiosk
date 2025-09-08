@@ -5,6 +5,8 @@ As of 08/14/25, the latest should work & it's installer has been placed inside `
 
 Requires Python interpreter on system. While a standalone exe is possible, it generally makes it less robust, see [PyInstaller's documentation ](https://pyinstaller.org/en/stable/common-issues-and-pitfalls.html#launching-external-programs-from-the-frozen-application)
 
+However you may want a standalone file you can install `pip install pyinstaller` & run `pyinstaller filename.py --onefile` to build exe. Just remember it's searching for Edge Driver in relative path. So it should be in the same directory as the other `.py` files to find it. For placing on desktop, create shortcuts to this exe and style as fit. Really only necessary if your python installation is different than mine(e.g admin priv, longer path, installed through Python's official site)
+
 ## Installing dependencies
 Make sure you're inside the directory containing `kiosks.py` & other python files when running the following cmd 
 `pip install -r requirements.txt`
