@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import Keys, ActionChains
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import platform
+from error_window import run_with_error_popup
 
 def run_and_refresh_page(url: str, sleep_time: float = 3) -> None:
     options = Options()
@@ -29,15 +30,19 @@ def run_and_refresh_page(url: str, sleep_time: float = 3) -> None:
         print("Could not detect platform to run edge Kiosk. Please verify system is on Linux or Windows")
         return
     driver = webdriver.Edge(service=service, options=options)
-    driver.get(url)
-    driver.implicitly_wait(3)
-    print("Running browser")
-    while True:
-        time.sleep(sleep_time)
-        driver.refresh()
+  
+    run_with_error_popup(lambda: (
+    driver.get(url),
+    driver.implicitly_wait(3),
+    print("Running browser"),
+    [driver.refresh() or time.sleep(sleep_time) for _ in iter(int, 1)]
+))
+        
+
 
     driver.quit()
 
+    
 
 if __name__ == "__main__":
     url = "https://rutgers.my.site.com/OneStopWalkIn/s/newarkwalkinstatus"
