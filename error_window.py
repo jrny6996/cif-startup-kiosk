@@ -6,7 +6,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMessageBox
 
 def run_with_error_popup(func, *args, **kwargs):
-    val =True
+    val = False # Testing fail
     while True:
         try:
             if val == True:
